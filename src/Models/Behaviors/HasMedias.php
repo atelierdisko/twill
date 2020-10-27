@@ -63,9 +63,15 @@ trait HasMedias
 
     public function image($role, $crop = "default", $params = [], $has_fallback = false, $cms = false, $media = null)
     {
-
+        /**
+         * @var Media $media
+         */
         if (!$media) {
             $media = $this->findMedia($role, $crop);
+        }
+
+        if ($media && substr($media->uuid, -3) === "gif") {
+            return ImageService::getRawUrl($media->uuid);
         }
 
         if ($media) {
